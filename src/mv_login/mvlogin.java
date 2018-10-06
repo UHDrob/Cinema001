@@ -146,7 +146,7 @@ private JFrame frame;
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(251, 172, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
-        jLabel1.setText("Learning Management System");
+        jLabel1.setText("CINEMA MANAGEMENT SYSTEM");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(251, 96, -1, -1));
 
         pack();
@@ -171,7 +171,7 @@ private JFrame frame;
             
                 conn = DriverManager.getConnection("jdbc:derby://localhost:1527/cinemadb", "cinema","cinemalogin");
             st = (Statement)conn.createStatement();
-            rs = st.executeQuery("select * from lms_accounts");
+            rs = st.executeQuery("select * from mv_accounts");
             
             while (rs.next())
             {

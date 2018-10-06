@@ -5,7 +5,7 @@
  */
 package mv_staff;
 
-// no no import mv_students.newStudent;
+ import mv_staff.newEmployee;
 
 /**
  *
@@ -30,25 +30,33 @@ public class administrators extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jButtonNewEmployee = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButtonViewEmployees = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
         jLabel1.setText("Administration");
 
-        jButton1.setText("New/Update Accounts");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonNewEmployee.setText("New Employee");
+        jButtonNewEmployee.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonNewEmployeeActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Students");
+        jButton2.setText("New Movie");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButtonViewEmployees.setText("View Employees");
+        jButtonViewEmployees.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonViewEmployeesActionPerformed(evt);
             }
         });
 
@@ -63,9 +71,12 @@ public class administrators extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(93, 93, 93)
-                        .addComponent(jButton1)
-                        .addGap(105, 105, 105)
-                        .addComponent(jButton2)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton2)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButtonNewEmployee)
+                                .addGap(103, 103, 103)
+                                .addComponent(jButtonViewEmployees)))))
                 .addContainerGap(612, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -75,23 +86,30 @@ public class administrators extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap(505, Short.MAX_VALUE))
+                    .addComponent(jButtonNewEmployee)
+                    .addComponent(jButtonViewEmployees))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addContainerGap(470, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     // no no               newStudent Info = new newStudent();
-     // no no               Info.setVisible(true);        
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jButtonNewEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewEmployeeActionPerformed
+                    newEmployee Info = new newEmployee();
+                    Info.setVisible(true);        
+    }//GEN-LAST:event_jButtonNewEmployeeActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
     //no no                lms_students.students tb = new lms_students.students();
     // no no                tb.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButtonViewEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonViewEmployeesActionPerformed
+                    viewEmployee viewInfo = new viewEmployee();
+                    viewInfo.setVisible(true);     
+    }//GEN-LAST:event_jButtonViewEmployeesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -136,8 +154,9 @@ public class administrators extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonNewEmployee;
+    private javax.swing.JButton jButtonViewEmployees;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
