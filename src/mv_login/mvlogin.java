@@ -169,7 +169,7 @@ private JFrame frame;
         try {
             int log = 1;
             
-                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/lmsdatabase", "lms","lmslogin");
+                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/cinemadb", "cinema","cinemalogin");
             st = (Statement)conn.createStatement();
             rs = st.executeQuery("select * from lms_accounts");
             
