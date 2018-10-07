@@ -43,7 +43,7 @@ public class welcome_mv extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Administrators");
+        jButton2.setText("Administrators TASKS");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);

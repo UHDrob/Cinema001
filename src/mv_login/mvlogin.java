@@ -170,8 +170,8 @@ private JFrame frame;
             int log = 1;
             
                 conn = DriverManager.getConnection("jdbc:derby://localhost:1527/cinemadb", "cinema","cinemalogin");
-            st = (Statement)conn.createStatement();
-            rs = st.executeQuery("select * from mv_accounts");
+                st = (Statement)conn.createStatement();
+                rs = st.executeQuery("select * from mv_accounts");
             
             while (rs.next())
             {
@@ -182,13 +182,8 @@ private JFrame frame;
                 }
             }
             if(log == 0)
-        //}
+        
             {
-        //if (password.contains("one") && (username.contains("king")))
-                //{
-                 //   jtxtUsername.setText(null);
-                 //   jtxtPassword.setText(null);
-                 //   systemExit();
                  JOptionPane.showMessageDialog(null,"ACCESS GRANTED");
                    CloseMe(); // Create class 
                     welcome_mv Info = new welcome_mv();
