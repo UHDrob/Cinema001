@@ -37,6 +37,8 @@
                               <Component id="jButtonNewEmployee" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="103" max="-2" attributes="0"/>
                               <Component id="jButtonViewEmployees" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="87" max="-2" attributes="0"/>
+                              <Component id="jButtonUpdateEmployee" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -54,6 +56,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jButtonNewEmployee" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonViewEmployees" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonUpdateEmployee" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jButton2" min="-2" max="-2" attributes="0"/>
@@ -93,6 +96,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonViewEmployeesActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonUpdateEmployee">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Update Employee"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonUpdateEmployeeActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

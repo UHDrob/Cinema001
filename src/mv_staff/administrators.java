@@ -33,6 +33,7 @@ public class administrators extends javax.swing.JFrame {
         jButtonNewEmployee = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButtonViewEmployees = new javax.swing.JButton();
+        jButtonUpdateEmployee = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,6 +61,13 @@ public class administrators extends javax.swing.JFrame {
             }
         });
 
+        jButtonUpdateEmployee.setText("Update Employee");
+        jButtonUpdateEmployee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonUpdateEmployeeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -76,7 +84,9 @@ public class administrators extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButtonNewEmployee)
                                 .addGap(103, 103, 103)
-                                .addComponent(jButtonViewEmployees)))))
+                                .addComponent(jButtonViewEmployees)
+                                .addGap(87, 87, 87)
+                                .addComponent(jButtonUpdateEmployee)))))
                 .addContainerGap(612, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -87,7 +97,8 @@ public class administrators extends javax.swing.JFrame {
                 .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonNewEmployee)
-                    .addComponent(jButtonViewEmployees))
+                    .addComponent(jButtonViewEmployees)
+                    .addComponent(jButtonUpdateEmployee))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
                 .addContainerGap(470, Short.MAX_VALUE))
@@ -110,6 +121,11 @@ public class administrators extends javax.swing.JFrame {
                     viewEmployee viewInfo = new viewEmployee();
                     viewInfo.setVisible(true);     
     }//GEN-LAST:event_jButtonViewEmployeesActionPerformed
+
+    private void jButtonUpdateEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateEmployeeActionPerformed
+                    //updateEmployee updateInfo = new updateEmployee();
+                    //updateInfo.setVisible(true);  
+    }//GEN-LAST:event_jButtonUpdateEmployeeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -156,6 +172,7 @@ public class administrators extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonNewEmployee;
+    private javax.swing.JButton jButtonUpdateEmployee;
     private javax.swing.JButton jButtonViewEmployees;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
