@@ -1,7 +1,10 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Login Window
+ * Authenticate user from DATABASE
+ */
+
+/**
+ * @author ROBERTO GOMEZ
  */
 package mv_login;
 
@@ -10,7 +13,6 @@ import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import mv_login.welcome_mv;
 import javax.swing.JFrame;
 //import com.sun.jndi.ldap.Connection;
 import java.sql.DriverManager;
@@ -18,10 +20,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Roberto Gomez
- */
 public class mvlogin extends javax.swing.JFrame {
 java.sql.Connection conn = null;
 ResultSet rs = null;
