@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import static javax.swing.UIManager.get;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 
@@ -47,11 +48,11 @@ PreparedStatement pst;
         Connection connect = null;
         try {
             connect = DriverManager.getConnection("jdbc:derby://localhost:1527/cinemadb","cinema","cinemalogin");      
-            JOptionPane.showMessageDialog(null, "Connected");
+            //JOptionPane.showMessageDialog(null, "Connected");
             return connect;
         } catch (SQLException ex) {
             Logger.getLogger(Movie_Window.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Not Connected");
+            //JOptionPane.showMessageDialog(null, "Not Connected");
             return null;                       
         }                           
     }
@@ -59,11 +60,12 @@ PreparedStatement pst;
     // Check Input Fields
     public boolean checkInputs()
     {
-        if(txt_movietitle.getText() == null
+        if(        txt_movieid.getText() == null
+                || txt_movietitle.getText() == null
                 || txt_releasedate.getText()== null
                 || txt_rating.getText() == null
-                || txt_runningtime.getText() == null
                 || txt_category.getText() == null
+                || txt_runningtime.getText() == null
                 || txt_director.getText() == null
                 || txt_moviecast.getText() ==null)
         {
@@ -73,6 +75,7 @@ PreparedStatement pst;
         {
             try{
                 //Float.parseFloat(txt_price.getText());
+                
                 return true;
             }catch(Exception ex)
             {
@@ -236,6 +239,11 @@ PreparedStatement pst;
         btn_update.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_icons/update.png"))); // NOI18N
         btn_update.setText("UPDATE");
         btn_update.setIconTextGap(15);
+        btn_update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_updateActionPerformed(evt);
+            }
+        });
 
         btn_delete.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btn_delete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_icons/minus.png"))); // NOI18N
@@ -387,7 +395,8 @@ PreparedStatement pst;
         {
             File selectedFile = file.getSelectedFile();
             String path = selectedFile.getAbsolutePath();
-            lbl_image.setIcon(ResizeImage(path, null));            
+            lbl_image.setIcon(ResizeImage(path, null)); 
+            ImgPath = path;
         }
         else
         {
@@ -404,50 +413,32 @@ PreparedStatement pst;
                     rs = st.executeQuery("SELECT * from cinema.mv_movies");
                 
                     String sql = "INSERT INTO cinema.mv_movies " 
-                            + "(movietitle, releasedate, rating, category, runningtime, director, moviecast, poster)" 
-                        + "values(?,?,?,?,?,?,?,?)";
+                            + "(movieid,movietitle, releasedate, rating, category, runningtime, director, moviecast, poster)" 
+                        + "values(?,?,?,?,?,?,?,?,?)";
                     pst = conn.prepareStatement(sql);
-                               
-                    pst.setString(1, txt_movietitle.getText());
-                    pst.setString(2, txt_releasedate.getText());
-                    pst.setString(3, txt_rating.getText());
-                    pst.setString(4, txt_runningtime.getText());
-                    pst.setString(5, txt_category.getText());
-                    pst.setString(6, txt_director.getText());
-                    pst.setString(7, txt_moviecast.getText());
-                    InputStream img = new FileInputStream(new File(ImgPath));
-                    pst.setBlob (8, img);
                     
-                
-                    pst.execute();
-                    JOptionPane.showMessageDialog(null,"New Account has been Created");
-                    rs.close();
+                    pst.setString(1, txt_movieid.getText());
+                    pst.setString(2, txt_movietitle.getText());
+                    pst.setString(3, txt_releasedate.getText());
+                    pst.setString(4, txt_rating.getText());
+                    pst.setString(5, txt_runningtime.getText());
+                    pst.setString(6, txt_category.getText());
+                    pst.setString(7, txt_director.getText());
+                    pst.setString(8, txt_moviecast.getText());
+                    InputStream img = new FileInputStream(new File(ImgPath));
+                    pst.setBlob (9, img);
+                                    
+                    pst.executeUpdate();
+                    JOptionPane.showMessageDialog(null,"New Movie has been Created");
+                    //txt_movieid.setText(null);
                     pst.close();
+                    rs.close();
                  }
-                catch(Exception e)  
+                catch(Exception ex)  
                 {
-                    JOptionPane.showMessageDialog(null, e.getMessage());
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
                 } 
-           
-            //try {
 
-                //    PreparedStatement ps = conn.prepareStatement ("INSERT INTO mv_movies(movietitle, releasedate, rating, category, runningtime, director, moviecast, image"
-                  //        + "values(?,?,?,?,?,?,?,?)) ");
-             //       ps.setString(1, txt_movietitle.getText());
-             //       ps.setString(2, txt_releasedate.getText());
-             //       ps.setString(3, txt_rating.getText());
-             //       ps.setString(4, txt_category.getText());
-             //       ps.setString(5, txt_runningtime.getText());
-             //       ps.setString(6, txt_director.getText());
-             //       ps.setString(7, txt_moviecast.getText());
-             //       InputStream img = new FileInputStream(new File(ImgPath));
-             //       ps.setBlob (8, img);
-             //       ps.executeUpdate();
-              //      JOptionPane.showMessageDialog(null, "Data");
-                                        
-            //} catch (Exception ex)
-            //{
-             //   JOptionPane.showMessageDialog(null, ex.getMessage());
                 //Logger.getLogger(Movie_Window.class.getName()).log(Level.SEVERE, null, ex);
             //}
         }
@@ -455,7 +446,79 @@ PreparedStatement pst;
         {
             JOptionPane.showMessageDialog(null, "One or More Fields Are Empty");
         }
+        
+            //System.out.println("Movie ID =>" + txt_movieid.getText());
+            //System.out.println("Movie Title => " + txt_movietitle.getText());
+            //System.out.println("Release Date => " + txt_releasedate.getText());
+            //System.out.println("Rating => " + txt_rating.getText());
+            //System.out.println("Running Time => " + txt_runningtime.getText());
+            //System.out.println("Category => " + txt_category.getText());
+            //System.out.println("Director => " + txt_director.getText());
+            //System.out.println("Movie Cast => " + txt_moviecast.getText());
+            //System.out.println("Poster => " + ImgPath);
+        
     }//GEN-LAST:event_btn_insertActionPerformed
+
+    private void btn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_updateActionPerformed
+/***        
+        if(checkInputs()  &&  txt_movieid.getText() != null)
+        {
+            String UpdateQuery = null;
+            PreparedStatement pst = null;
+            Connection conn = get Connection();
+            
+            // Update without image
+            if(ImgPath == null)
+                    {
+                        try {
+                            UpdateQuery = "UPDATE products SET movietitle = ?, releasedate = ?, rating = ?, runningtime = ?, category = ?, director =?, moviecast = ?"
+                                            + "WHERE movieid = ?;";
+                            pst = conn.prepareStatement(UpdateQuery);
+                            
+                            pst.setString(1, txt_movietitle.getText());
+                            // SimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            // String addDate = dateFormat.format(txt_AddDate.getDate());
+                            // pst.setString(3, addDate);
+                            pst.setString(2, txt_releasedate.getText());
+                            pst.setString(3, txt_rating.getText());
+                            pst.setString(4, txt_runningtime.getText());
+                            pst.setString(5, txt_category.getText());
+                            pst.setString(6, txt_director.getText());
+                            pst.setString(7, txt_moviecast.getText());
+                            
+                        } catch (SQLException ex) {
+                            Logger.getLogger(Movie_Window.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
+                    }
+            
+                    // Update with Image
+            else{
+                try {
+                    InputStream img = new FileInputStream(new File(ImgPath);
+                    
+                            UpdateQuery = "UPDATE products SET movietitle = ?, releasedate = ?, rating = ?, runningtime = ?, category = ?, director =?, moviecast = ?"
+                                            + ", poster = ? WHERE movieid = ?;";
+                            
+                            ps.setString(1, txt_movietitle.getText());
+                            // SimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            // String addDate = dateFormat.format(txt_AddDate.getDate());
+                            // ps.setString(3, addDate);
+                            ps.setString(2, txt_releasedate.getText());
+                            ps.setString(3, txt_rating.getText());
+                            ps.setString(4, txt_runningtime.getText());
+                            ps.setString(5, txt_category.getText());
+                            ps.setString(6, txt_director.getText());
+                            ps.setString(7, txt_moviecast.getText());
+                    
+                        } catch (SQLException ex) {
+                            Logger.getLogger(Movie_Window.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                }
+            }
+        }
+***/
+    }//GEN-LAST:event_btn_updateActionPerformed
 
     /**
      * @param args the command line arguments
