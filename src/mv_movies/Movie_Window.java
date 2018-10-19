@@ -1,14 +1,13 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Cinema Management System
+ * Movie Section
+ * Administration Level
  */
 package mv_movies;
 
 import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -29,36 +28,33 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
+
 /**
  *
- * @author rob
+ * @author Roberto Gomez
  */
 public class Movie_Window extends javax.swing.JFrame {
-//java.sql.Connection connect = null;
-ResultSet rs = null;
-Statement st;
-PreparedStatement pst;
+
     /**
      * Creates new form Movie_Window
      */
     public Movie_Window() {
         initComponents();
-        //getConnection();
+        Show_Movies_In_JTable();
     }
 
     String ImgPath = null;
+    int pos = 0;
     
-  // Function to Connect to JavaDB Database  
+  // Connect to JavaDB Database  
     public Connection getConnection()
     {
-        Connection connect = null;
+        Connection con = null;
         try {
-            connect = DriverManager.getConnection("jdbc:derby://localhost:1527/cinemadb","cinema","cinemalogin");      
-            //JOptionPane.showMessageDialog(null, "Connected");
-            return connect;
+            con = DriverManager.getConnection("jdbc:derby://localhost:1527/cinemadb","cinema","cinemalogin");      
+            return con;
         } catch (SQLException ex) {
             Logger.getLogger(Movie_Window.class.getName()).log(Level.SEVERE, null, ex);
-            //JOptionPane.showMessageDialog(null, "Not Connected");
             return null;                       
         }                           
     }
@@ -68,7 +64,7 @@ PreparedStatement pst;
     {
         if(        txt_movieid.getText() == null
                 || txt_movietitle.getText() == null
-                || txt_releasedate.getText()== null
+                || txt_releasedate.getDate()== null
                 || txt_rating.getText() == null
                 || txt_category.getText() == null
                 || txt_runningtime.getText() == null
@@ -80,20 +76,16 @@ PreparedStatement pst;
         else
         {
             try{
-                //Float.parseFloat(txt_price.getText());
-                
+                //Float.parseFloat(txt_.getText());                
                 return true;
             }catch(Exception ex)
             {
                 return false;
             }
-        }
-        
+        }        
     }
-    
-    
-    
-    // Resize Image
+      
+    // Resize the Image to fit into JLabel
     public ImageIcon ResizeImage(String imagePath, byte[] pic)
     {
         ImageIcon myImage = null;
@@ -110,10 +102,85 @@ PreparedStatement pst;
         Image img = myImage.getImage();
         Image img2 = img.getScaledInstance(lbl_image.getWidth(), lbl_image.getHeight(), Image.SCALE_SMOOTH);
         ImageIcon image = new ImageIcon(img2);
-        return image;
         
+        return image;        
     }
      
+    // Display Data In JTable: 
+    //      1 - Fill ArrayList With The Data
+    public ArrayList<Movies> getMoviesList()
+    {
+            ArrayList<Movies> moviesList  = new ArrayList<Movies>();
+            Connection con = getConnection();
+            String sql = "SELECT * FROM mv_movies";
+            
+            Statement st;
+            ResultSet rs;
+            
+        try {          
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+            Movies movies;
+            
+            while(rs.next())
+            {
+                movies = new Movies(rs.getInt("movieid"),rs.getString("movietitle"),
+                        rs.getString("releasedate"),rs.getString("rating"),
+                        rs.getString("category"), rs.getString("runningtime"),
+                        rs.getString("director"), rs.getString("moviecast"),
+                        rs.getBytes("poster"));
+                moviesList.add(movies);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Movie_Window.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return moviesList;                 
+    }   
+    
+    //      2 - Populate The JTable    
+    public void Show_Movies_In_JTable()
+    {
+        ArrayList<Movies> list = getMoviesList();
+        DefaultTableModel model = (DefaultTableModel)JTable_Movies.getModel();
+        // clear jtable content
+        model.setRowCount(0);
+        Object[] row = new Object[4];
+        for(int i = 0; i < list.size(); i++)
+        {
+            row[0] = list.get(i).getmovieid();
+            row[1] = list.get(i).getmovietitle();
+            row[2] = list.get(i).getreleasedate();
+            row[3] = list.get(i).getrating();
+            
+            model.addRow(row);
+        }    
+    }
+    
+    // Show Data In Inputs
+    public void ShowItem(int index)
+    {
+            txt_movieid.setText(Integer.toString(getMoviesList().get(index).getmovieid()));
+            txt_movietitle.setText(getMoviesList().get(index).getmovietitle());
+            
+        try {
+           Date addDate = null;
+            addDate = new SimpleDateFormat("yyyy-MM-dd").parse((String)getMoviesList().get(index).getreleasedate());
+            txt_releasedate.setDate(addDate);
+ 
+        } catch (ParseException ex) {
+            Logger.getLogger(Movie_Window.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            txt_rating.setText(getMoviesList().get(index).getrating());
+            txt_category.setText(getMoviesList().get(index).getcategory());
+            txt_runningtime.setText(getMoviesList().get(index).getrunningtime());
+            txt_director.setText(getMoviesList().get(index).getdirector());
+            txt_moviecast.setText(getMoviesList().get(index).getmoviecast());
+            
+        lbl_image.setIcon(ResizeImage(null, getMoviesList().get(index).getImage()));
+    }       
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -146,13 +213,17 @@ PreparedStatement pst;
         txt_movieid = new javax.swing.JTextField();
         txt_director = new javax.swing.JTextField();
         lbl_image = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        JScrollPanel = new javax.swing.JScrollPane();
+        JTable_Movies = new javax.swing.JTable();
         Btn_Choose_Image = new javax.swing.JButton();
         btn_insert = new javax.swing.JButton();
         btn_update = new javax.swing.JButton();
         btn_delete = new javax.swing.JButton();
-        txt_releasedate = new javax.swing.JTextField();
+        txt_releasedate = new com.toedter.calendar.JDateChooser();
+        btn_first = new javax.swing.JButton();
+        btn_next = new javax.swing.JButton();
+        btn_previous = new javax.swing.JButton();
+        btn_last = new javax.swing.JButton();
 
         jTextField1.setText("jTextField1");
 
@@ -212,15 +283,21 @@ PreparedStatement pst;
         lbl_image.setBackground(new java.awt.Color(204, 255, 255));
         lbl_image.setOpaque(true);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        JTable_Movies.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Movie ID", "Title", "Release Date", "Rating", "Category", "Running TIme", "Director", "Cast"
+                "movieid", "movietitle", "releasedate", "rating"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        JTable_Movies.setGridColor(new java.awt.Color(204, 0, 0));
+        JTable_Movies.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JTable_MoviesMouseClicked(evt);
+            }
+        });
+        JScrollPanel.setViewportView(JTable_Movies);
 
         Btn_Choose_Image.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         Btn_Choose_Image.setText("Choose Image");
@@ -262,7 +339,39 @@ PreparedStatement pst;
         });
 
         txt_releasedate.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        txt_releasedate.setPreferredSize(new java.awt.Dimension(160, 50));
+
+        btn_first.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btn_first.setText("First");
+        btn_first.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_firstActionPerformed(evt);
+            }
+        });
+
+        btn_next.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btn_next.setText("Next");
+        btn_next.setActionCommand("Next");
+        btn_next.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nextActionPerformed(evt);
+            }
+        });
+
+        btn_previous.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btn_previous.setText("Previous");
+        btn_previous.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_previousActionPerformed(evt);
+            }
+        });
+
+        btn_last.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btn_last.setText("Last");
+        btn_last.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_lastActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -271,7 +380,7 @@ PreparedStatement pst;
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(56, 56, 56)
+                        .addGap(77, 77, 77)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel7)
                             .addComponent(jLabel5)
@@ -291,32 +400,42 @@ PreparedStatement pst;
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(Btn_Choose_Image)
                                 .addGap(18, 18, 18)))))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txt_rating, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_director, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_movieid, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_movietitle, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_releasedate, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(txt_category, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
-                        .addComponent(txt_runningtime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txt_rating, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                    .addComponent(txt_director, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                    .addComponent(txt_movieid, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                    .addComponent(txt_movietitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                    .addComponent(txt_category, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                    .addComponent(txt_runningtime, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(8, 8, 8)
                         .addComponent(lbl_image, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txt_moviecast, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_moviecast, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                    .addComponent(txt_releasedate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(82, 82, 82)
-                        .addComponent(btn_insert)
-                        .addGap(96, 96, 96)
-                        .addComponent(btn_update)
-                        .addGap(76, 76, 76)
-                        .addComponent(btn_delete)
-                        .addContainerGap(138, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(JScrollPanel))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1)
-                        .addContainerGap())))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(80, 80, 80)
+                                .addComponent(btn_insert)
+                                .addGap(97, 97, 97)
+                                .addComponent(btn_update)
+                                .addGap(79, 79, 79)
+                                .addComponent(btn_delete))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(147, 147, 147)
+                                .addComponent(btn_first)
+                                .addGap(18, 18, 18)
+                                .addComponent(btn_next)
+                                .addGap(18, 18, 18)
+                                .addComponent(btn_previous)
+                                .addGap(18, 18, 18)
+                                .addComponent(btn_last)))
+                        .addGap(0, 130, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -332,9 +451,9 @@ PreparedStatement pst;
                             .addComponent(txt_movietitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_releasedate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(txt_releasedate, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txt_rating, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -365,13 +484,21 @@ PreparedStatement pst;
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(lbl_image, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60)
+                        .addGap(44, 44, 44)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btn_insert)
-                            .addComponent(btn_update)
-                            .addComponent(btn_delete))))
-                .addGap(78, 78, Short.MAX_VALUE))
+                            .addComponent(btn_next)
+                            .addComponent(btn_first)
+                            .addComponent(btn_previous)
+                            .addComponent(btn_last))
+                        .addGap(7, 7, 7)
+                        .addComponent(JScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btn_update)
+                                .addComponent(btn_delete))
+                            .addComponent(btn_insert, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addGap(106, 106, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -394,6 +521,7 @@ PreparedStatement pst;
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+// Button Browse Image From Your Computer    
     private void Btn_Choose_ImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_Choose_ImageActionPerformed
         
         JFileChooser file = new JFileChooser();
@@ -411,95 +539,106 @@ PreparedStatement pst;
         }
         else
         {
-            System.out.println("No File Selected");
+            System.out.println("No File has been Selected");
         }
     }//GEN-LAST:event_Btn_Choose_ImageActionPerformed
 
+// Button Insert Data Into JavaDB Database
+// 1 - Check If the imgPath is Not NUll and the inouts are not empty
+// 2- Insert the Data        
     private void btn_insertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_insertActionPerformed
         if(checkInputs()  &&  ImgPath !=null)
         {
             try{
-                    Connection conn = getConnection();
-                    st = (Statement)conn.createStatement();
-                    rs = st.executeQuery("SELECT * from cinema.mv_movies");
-                
-                    String sql = "INSERT INTO cinema.mv_movies " 
+                    Connection con = getConnection();      
+                    String sqlInsert = "INSERT INTO mv_movies" 
                             + "(movieid,movietitle, releasedate, rating, category, runningtime, director, moviecast, poster)" 
                         + "values(?,?,?,?,?,?,?,?,?)";
-                    PreparedStatement pst = conn.prepareStatement(sql);
+                    PreparedStatement ps = con.prepareStatement(sqlInsert);
                     
-                    pst.setString(1, txt_movieid.getText());
-                    pst.setString(2, txt_movietitle.getText());
-                    pst.setString(3, txt_releasedate.getText());
-                    pst.setString(4, txt_rating.getText());
-                    pst.setString(5, txt_runningtime.getText());
-                    pst.setString(6, txt_category.getText());
-                    pst.setString(7, txt_director.getText());
-                    pst.setString(8, txt_moviecast.getText());
+                    ps.setString(1, txt_movieid.getText());
+                    ps.setString(2, txt_movietitle.getText());
+                    
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    String addDate = dateFormat.format(txt_releasedate.getDate());
+                    ps.setString(3, addDate);
+                   
+                    ps.setString(4, txt_rating.getText());
+                    ps.setString(5, txt_runningtime.getText());
+                    ps.setString(6, txt_category.getText());
+                    ps.setString(7, txt_director.getText());
+                    ps.setString(8, txt_moviecast.getText());
+                    
                     InputStream img = new FileInputStream(new File(ImgPath));
-                    pst.setBlob (9, img);
+                    ps.setBlob (9, img);
                                     
-                    pst.executeUpdate();
+                    ps.executeUpdate();
+                    Show_Movies_In_JTable();
+                    
                     JOptionPane.showMessageDialog(null,"New Movie has been Created");
-                    //txt_movieid.setText(null);
-                    pst.close();
-                    rs.close();
+                    
                  }
                 catch(Exception ex)  
                 {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
                 } 
-
-                //Logger.getLogger(Movie_Window.class.getName()).log(Level.SEVERE, null, ex);
         }
         else
         {
             JOptionPane.showMessageDialog(null, "One or More Fields Are Empty");
+            //Logger.getLogger(Movie_Window.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         //ONLY FOR TESTING:
-            //System.out.println("Movie ID =>" + txt_movieid.getText());
-            //System.out.println("Movie Title => " + txt_movietitle.getText());
-            //System.out.println("Release Date => " + txt_releasedate.getText());
-            //System.out.println("Rating => " + txt_rating.getText());
-            //System.out.println("Running Time => " + txt_runningtime.getText());
-            //System.out.println("Category => " + txt_category.getText());
-            //System.out.println("Director => " + txt_director.getText());
-            //System.out.println("Movie Cast => " + txt_moviecast.getText());
-            //System.out.println("Poster => " + ImgPath);
+            System.out.println("Movie ID =>" + txt_movieid.getText());
+            System.out.println("Movie Title => " + txt_movietitle.getText());
+            System.out.println("Release Date => " + txt_releasedate.getDate());
+            System.out.println("Rating => " + txt_rating.getText());
+            System.out.println("Running Time => " + txt_runningtime.getText());
+            System.out.println("Category => " + txt_category.getText());
+            System.out.println("Director => " + txt_director.getText());
+            System.out.println("Movie Cast => " + txt_moviecast.getText());
+            System.out.println("Poster => " + ImgPath);
         
     }//GEN-LAST:event_btn_insertActionPerformed
 
+// Button Update Data From JavaDB database    
+// 1 - Check if inputs are not null
+// if the imgPath is not null UPDATE also the image
+// else do not update the image
+// 2 - Update the data    
     private void btn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_updateActionPerformed
       
-        if(checkInputs()  &&  txt_movieid.getText() != null)
+        if(checkInputs()  &&  txt_movieid.getText()!=null)
         {
-            String UpdateQuery = null;
-            PreparedStatement pst = null;
-            Connection conn = getConnection();
+            String sqlUpdate = null;
+            PreparedStatement ps = null;
+            Connection con = getConnection();
             
             // Update without image
             if(ImgPath == null)
                     {
                         try {
-                            UpdateQuery = "UPDATE products SET movietitle = ?, releasedate = ?, rating = ?, runningtime = ?, category = ?, director =?, moviecast = ?"
-                                            + "WHERE movieid = ?;";
-                            pst = conn.prepareStatement(UpdateQuery);
+                            sqlUpdate = "UPDATE mv_mvoies SET movietitle = ?, releasedate = ?, rating = ?, runningtime = ?, category = ?, director =?, moviecast = ?"
+                                            + "WHERE movieid = ?";
+                            ps = con.prepareStatement(sqlUpdate);
                             
-                            pst.setString(1, txt_movietitle.getText());
-                            // SimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            // String addDate = dateFormat.format(txt_AddDate.getDate());
-                            // pst.setString(3, addDate);
-                            pst.setString(2, txt_releasedate.getText());
-                            pst.setString(3, txt_rating.getText());
-                            pst.setString(4, txt_runningtime.getText());
-                            pst.setString(5, txt_category.getText());
-                            pst.setString(6, txt_director.getText());
-                            pst.setString(7, txt_moviecast.getText());
+                            ps.setString(1, txt_movietitle.getText());
                             
-                            pst.setInt(8, Integer.parseInt(txt_movieid.getText()));
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            String addDate = dateFormat.format(txt_releasedate.getDate());
+                            ps.setString(2, addDate);
                             
-                            pst.executeUpdate();
+                            ps.setString(3, txt_rating.getText());
+                            ps.setString(4, txt_runningtime.getText());
+                            ps.setString(5, txt_category.getText());
+                            ps.setString(6, txt_director.getText());
+                            ps.setString(7, txt_moviecast.getText());
+                            
+                            ps.setInt(8, Integer.parseInt(txt_movieid.getText()));
+                            
+                            ps.executeUpdate();
+                            Show_Movies_In_JTable();
                             
                             JOptionPane.showMessageDialog(null, "Product Updated");
                             
@@ -514,26 +653,29 @@ PreparedStatement pst;
                 try {
                     InputStream img = new FileInputStream(new File(ImgPath));
                     
-                            UpdateQuery = "UPDATE products SET movietitle = ?, releasedate = ?, rating = ?, runningtime = ?, category = ?, director =?, moviecast = ?"
-                                            + ", poster = ? WHERE movieid = ?;";
+                            sqlUpdate = "UPDATE mv_movies SET movietitle = ?, releasedate = ?, rating = ?, runningtime = ?, category = ?, director =?, moviecast = ?"
+                                            + ", poster = ? WHERE movieid = ?";
                             
-                            pst=conn.prepareStatement(UpdateQuery);
+                            ps=con.prepareStatement(sqlUpdate);
                             
-                            pst.setString(1, txt_movietitle.getText());
-                            // SimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            // String addDate = dateFormat.format(txt_AddDate.getDate());
-                            // ps.setString(3, addDate);
-                            pst.setString(2, txt_releasedate.getText());
-                            pst.setString(3, txt_rating.getText());
-                            pst.setString(4, txt_runningtime.getText());
-                            pst.setString(5, txt_category.getText());
-                            pst.setString(6, txt_director.getText());
-                            pst.setString(7, txt_moviecast.getText());
-                            pst.setBlob(8, img);
+                            ps.setString(1, txt_movietitle.getText());
                             
-                            pst.setInt(9, Integer.parseInt(txt_movieid.getText()));
-                            pst.executeUpdate();
-                            JOptionPane.showMessageDialog(null,"Product Updated");
+                            SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd");
+                            String addDate = dateFormat.format(txt_releasedate.getDate());
+                            ps.setString(2, addDate);
+                           
+                            ps.setString(3, txt_rating.getText());
+                            ps.setString(4, txt_runningtime.getText());
+                            ps.setString(5, txt_category.getText());
+                            ps.setString(6, txt_director.getText());
+                            ps.setString(7, txt_moviecast.getText());
+                            ps.setBlob(8, img);
+                            
+                            ps.setInt(9, Integer.parseInt(txt_movieid.getText()));
+                            ps.executeUpdate();
+                            Show_Movies_In_JTable();
+                            
+                            JOptionPane.showMessageDialog(null,"Movie has been updated");
                             
   
                         } catch (Exception ex) {
@@ -546,17 +688,19 @@ PreparedStatement pst;
         }
     }//GEN-LAST:event_btn_updateActionPerformed
 
+// Button Delete the data from JavaDB database    
     private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
+       
         if(!txt_movieid.getText().equals(""))
         {
             try{
-                Connection conn = getConnection();
-                String sql = "DELETE FROM mv_movies WHERE movieid=?";
-                PreparedStatement pst = conn.prepareStatement(sql);
+                Connection con = getConnection();
+                String sqlDelete = "DELETE FROM mv_movies WHERE movieid=?";
+                PreparedStatement ps = con.prepareStatement(sqlDelete);
                 
                 int movieid = Integer.parseInt(txt_movieid.getText());
-                pst.setInt(1, movieid);
-                pst.executeUpdate();
+                ps.setInt(1, movieid);
+                ps.executeUpdate();
                 
                 JOptionPane.showMessageDialog(null, "Product Deleted");
                 
@@ -568,6 +712,44 @@ PreparedStatement pst;
         JOptionPane.showMessageDialog(null,"Product Not Deleted: No Movie ID to Delete");
         }
     }//GEN-LAST:event_btn_deleteActionPerformed
+
+// JTable Mouse Clicked
+// Display the selected row data into JTextFields
+// and the image into JLabel       
+    private void JTable_MoviesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTable_MoviesMouseClicked
+  
+        int index = JTable_Movies.getSelectedRow();
+        ShowItem(index);
+       
+    }//GEN-LAST:event_JTable_MoviesMouseClicked
+
+    private void btn_firstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_firstActionPerformed
+        pos = 0;
+        ShowItem(pos);
+    }//GEN-LAST:event_btn_firstActionPerformed
+
+    private void btn_lastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lastActionPerformed
+        pos = getMoviesList().size()-1;
+        ShowItem(pos);
+    }//GEN-LAST:event_btn_lastActionPerformed
+
+    private void btn_nextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nextActionPerformed
+        pos++;
+        if( pos >= getMoviesList().size())
+        {
+            pos = getMoviesList().size()-1;
+        }
+        ShowItem(pos);
+    }//GEN-LAST:event_btn_nextActionPerformed
+
+    private void btn_previousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_previousActionPerformed
+        pos--;
+        if(pos<0)
+        {
+            pos=0;
+        }
+        ShowItem(pos);
+    }//GEN-LAST:event_btn_previousActionPerformed
 
     /**
      * @param args the command line arguments
@@ -595,6 +777,9 @@ PreparedStatement pst;
             java.util.logging.Logger.getLogger(Movie_Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -606,8 +791,14 @@ PreparedStatement pst;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Btn_Choose_Image;
+    private javax.swing.JScrollPane JScrollPanel;
+    private javax.swing.JTable JTable_Movies;
     private javax.swing.JButton btn_delete;
+    private javax.swing.JButton btn_first;
     private javax.swing.JButton btn_insert;
+    private javax.swing.JButton btn_last;
+    private javax.swing.JButton btn_next;
+    private javax.swing.JButton btn_previous;
     private javax.swing.JButton btn_update;
     private datechooser.beans.DateChooserDialog dateChooserDialog1;
     private datechooser.beans.DateChooserDialog dateChooserDialog2;
@@ -623,8 +814,6 @@ PreparedStatement pst;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lbl_image;
     private javax.swing.JTextField txt_category;
@@ -633,7 +822,7 @@ PreparedStatement pst;
     private javax.swing.JTextField txt_movieid;
     private javax.swing.JTextField txt_movietitle;
     private javax.swing.JTextField txt_rating;
-    private javax.swing.JTextField txt_releasedate;
+    private com.toedter.calendar.JDateChooser txt_releasedate;
     private javax.swing.JTextField txt_runningtime;
     // End of variables declaration//GEN-END:variables
 }
