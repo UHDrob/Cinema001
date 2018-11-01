@@ -3,8 +3,9 @@
  * Movie Section
  * Administration Level
  */
-package mv_movies;
+package mv_rooms;
 
+import mv_movies.*;
 import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,12 +34,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Roberto Gomez
  */
-public class Movie_Window extends javax.swing.JFrame {
+public class Room_Window extends javax.swing.JFrame {
 
     /**
      * Creates new form Movie_Window
      */
-    public Movie_Window() {
+    public Room_Window() {
         initComponents();
         Show_Movies_In_JTable();
     }
@@ -54,7 +55,7 @@ public class Movie_Window extends javax.swing.JFrame {
             con = DriverManager.getConnection("jdbc:derby://localhost:1527/cinemadb","cinema","cinemalogin");      
             return con;
         } catch (SQLException ex) {
-            Logger.getLogger(Movie_Window.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Room_Window.class.getName()).log(Level.SEVERE, null, ex);
             return null;                       
         }                           
     }
@@ -133,7 +134,7 @@ public class Movie_Window extends javax.swing.JFrame {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(Movie_Window.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Room_Window.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return moviesList;                 
@@ -170,7 +171,7 @@ public class Movie_Window extends javax.swing.JFrame {
             txt_releasedate.setDate(addDate);
  
         } catch (ParseException ex) {
-            Logger.getLogger(Movie_Window.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Room_Window.class.getName()).log(Level.SEVERE, null, ex);
         }
             txt_rating.setText(getMoviesList().get(index).getrating());
             txt_category.setText(getMoviesList().get(index).getcategory());
@@ -350,7 +351,6 @@ public class Movie_Window extends javax.swing.JFrame {
 
         btn_next.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btn_next.setText("Next");
-        btn_next.setActionCommand("Next");
         btn_next.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_nextActionPerformed(evt);
@@ -619,7 +619,7 @@ public class Movie_Window extends javax.swing.JFrame {
             if(ImgPath == null)
                     {
                         try {
-                            sqlUpdate = "UPDATE mv_movies SET movietitle = ?, releasedate = ?, rating = ?, runningtime = ?, category = ?, director =?, moviecast = ?"
+                            sqlUpdate = "UPDATE mv_mvoies SET movietitle = ?, releasedate = ?, rating = ?, runningtime = ?, category = ?, director =?, moviecast = ?"
                                             + "WHERE movieid = ?";
                             ps = con.prepareStatement(sqlUpdate);
                             
@@ -640,10 +640,10 @@ public class Movie_Window extends javax.swing.JFrame {
                             ps.executeUpdate();
                             Show_Movies_In_JTable();
                             
-                            JOptionPane.showMessageDialog(null, "Movie has been Updated");
+                            JOptionPane.showMessageDialog(null, "Product Updated");
                             
                         } catch (SQLException ex) {
-                            Logger.getLogger(Movie_Window.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(Room_Window.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         
                     }
@@ -680,7 +680,7 @@ public class Movie_Window extends javax.swing.JFrame {
   
                         } catch (Exception ex) {
                                 JOptionPane.showMessageDialog(null,ex.getMessage());
-                                Logger.getLogger(Movie_Window.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(Room_Window.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 }
             } else {
@@ -705,7 +705,7 @@ public class Movie_Window extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Product Deleted");
                 
             }catch (SQLException ex){
-                Logger.getLogger(Movie_Window.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Room_Window.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null,"Product Not Deleted");
             }
         }else{
@@ -768,14 +768,18 @@ public class Movie_Window extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Movie_Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Room_Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Movie_Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Room_Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Movie_Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Room_Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Movie_Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Room_Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -784,7 +788,7 @@ public class Movie_Window extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Movie_Window().setVisible(true);
+                new Room_Window().setVisible(true);
             }
         });
     }
