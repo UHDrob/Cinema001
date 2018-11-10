@@ -51,7 +51,7 @@ public class Movie_Window extends javax.swing.JFrame {
     {
         Connection con = null;
         try {
-            String urlDB = "jdbc:derby://localhost:1527/cinemadb";
+            String urlDB = "jdbc:derby://localhost:1527/cinema";
             String usernameDB = "cinema";
             String passwordDB = "cinemalogin";
             //con = DriverManager.getConnection("jdbc:derby://localhost:1527/cinemadb","cinema","cinemalogin");
