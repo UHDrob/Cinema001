@@ -54,6 +54,7 @@ private JFrame frame;
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1380, 800));
+        setPreferredSize(new java.awt.Dimension(1500, 800));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -166,14 +167,18 @@ private JFrame frame;
         
         try {
             int log = 1;
-            
-                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/cinemadb", "cinema","cinemalogin");
+                String usernameDB = "cinema";
+                String passwordDB = "cinemalogin";
+                String databaseName = "jdbc:derby://localhost:1527/cinema";
+                conn = DriverManager.getConnection(databaseName, usernameDB, passwordDB);
                 st = (Statement)conn.createStatement();
-                rs = st.executeQuery("select * from mv_accounts");
+                rs = st.executeQuery("select * from mv_staff");
+ 
             
             while (rs.next())
             {
-                if (rs.getString(2).equals(username) && rs.getString(3).equals(password))
+                          
+                if (rs.getString(11).equals(username) && rs.getString(12).equals(password))
                 {
                     log = 0;
                         break;

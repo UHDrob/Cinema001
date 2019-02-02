@@ -5,7 +5,7 @@
  */
 package mv_staff;
 
- import mv_staff.newEmployee;
+
 
 /**
  *
@@ -29,103 +29,260 @@ public class administrators extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButtonNewEmployee = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButtonViewEmployees = new javax.swing.JButton();
-        jButtonUpdateEmployee = new javax.swing.JButton();
+        btn_back = new javax.swing.JButton();
+        btn_staff = new javax.swing.JButton();
+        btn_movies = new javax.swing.JButton();
+        btn_showtimes = new javax.swing.JButton();
+        btn_locations = new javax.swing.JButton();
+        btn_tickets = new javax.swing.JButton();
+        btn_orders = new javax.swing.JButton();
+        btn_room = new javax.swing.JButton();
+        btn_promotions = new javax.swing.JButton();
+        btn_payments = new javax.swing.JButton();
+        btn_transactions = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(153, 204, 0));
+        setForeground(new java.awt.Color(102, 204, 0));
+
+        jPanel1.setBackground(new java.awt.Color(255, 153, 51));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1500, 800));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
-        jLabel1.setText("Administration");
+        jLabel1.setText("Administrators");
 
-        jButtonNewEmployee.setText("New Employee");
-        jButtonNewEmployee.addActionListener(new java.awt.event.ActionListener() {
+        btn_back.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        btn_back.setText("Back to Main Menu");
+        btn_back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonNewEmployeeActionPerformed(evt);
+                btn_backActionPerformed(evt);
             }
         });
 
-        jButton2.setText("New Movie");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btn_staff.setFont(new java.awt.Font("Tahoma", 2, 36)); // NOI18N
+        btn_staff.setText("Staff");
+        btn_staff.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btn_staffActionPerformed(evt);
             }
         });
 
-        jButtonViewEmployees.setText("View Employees");
-        jButtonViewEmployees.addActionListener(new java.awt.event.ActionListener() {
+        btn_movies.setFont(new java.awt.Font("Tahoma", 2, 36)); // NOI18N
+        btn_movies.setText("Movies");
+        btn_movies.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonViewEmployeesActionPerformed(evt);
+                btn_moviesActionPerformed(evt);
             }
         });
 
-        jButtonUpdateEmployee.setText("Update Employee");
-        jButtonUpdateEmployee.addActionListener(new java.awt.event.ActionListener() {
+        btn_showtimes.setFont(new java.awt.Font("Tahoma", 2, 36)); // NOI18N
+        btn_showtimes.setText("Showtimes");
+        btn_showtimes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonUpdateEmployeeActionPerformed(evt);
+                btn_showtimesActionPerformed(evt);
             }
         });
+
+        btn_locations.setFont(new java.awt.Font("Tahoma", 2, 36)); // NOI18N
+        btn_locations.setText("Locations");
+        btn_locations.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_locationsActionPerformed(evt);
+            }
+        });
+
+        btn_tickets.setFont(new java.awt.Font("Tahoma", 2, 36)); // NOI18N
+        btn_tickets.setText("Tickets");
+        btn_tickets.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ticketsActionPerformed(evt);
+            }
+        });
+
+        btn_orders.setFont(new java.awt.Font("Tahoma", 2, 36)); // NOI18N
+        btn_orders.setText("Orders");
+        btn_orders.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ordersActionPerformed(evt);
+            }
+        });
+
+        btn_room.setFont(new java.awt.Font("Tahoma", 2, 36)); // NOI18N
+        btn_room.setText("Room");
+        btn_room.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_roomActionPerformed(evt);
+            }
+        });
+
+        btn_promotions.setFont(new java.awt.Font("Tahoma", 2, 36)); // NOI18N
+        btn_promotions.setText("Promotions");
+        btn_promotions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_promotionsActionPerformed(evt);
+            }
+        });
+
+        btn_payments.setFont(new java.awt.Font("Tahoma", 2, 36)); // NOI18N
+        btn_payments.setText("Payments");
+        btn_payments.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_paymentsActionPerformed(evt);
+            }
+        });
+
+        btn_transactions.setFont(new java.awt.Font("Tahoma", 2, 36)); // NOI18N
+        btn_transactions.setText("Transactions");
+        btn_transactions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_transactionsActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btn_back))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_locations)
+                            .addComponent(btn_staff)
+                            .addComponent(btn_room))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(194, 194, 194)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btn_movies)
+                                    .addComponent(btn_promotions)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(185, 185, 185)
+                                .addComponent(btn_payments)))
+                        .addGap(151, 151, 151)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_orders)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btn_showtimes)
+                                .addGap(153, 153, 153)
+                                .addComponent(btn_tickets))
+                            .addComponent(btn_transactions)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(367, 367, 367)
+                        .addComponent(jLabel1)))
+                .addGap(0, 210, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(53, 53, 53)
+                        .addComponent(jLabel1)
+                        .addGap(97, 97, 97)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btn_staff)
+                            .addComponent(btn_movies)
+                            .addComponent(btn_showtimes))
+                        .addGap(57, 57, 57)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btn_locations)
+                            .addComponent(btn_orders)
+                            .addComponent(btn_payments))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(94, 94, 94)
+                                .addComponent(btn_room))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(74, 74, 74)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btn_promotions)
+                                    .addComponent(btn_transactions)))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btn_back)
+                        .addGap(152, 152, 152)
+                        .addComponent(btn_tickets)))
+                .addContainerGap(282, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(410, 410, 410)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(93, 93, 93)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButtonNewEmployee)
-                                .addGap(103, 103, 103)
-                                .addComponent(jButtonViewEmployees)
-                                .addGap(87, 87, 87)
-                                .addComponent(jButtonUpdateEmployee)))))
-                .addContainerGap(612, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(69, 69, 69)
-                .addComponent(jLabel1)
-                .addGap(39, 39, 39)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonNewEmployee)
-                    .addComponent(jButtonViewEmployees)
-                    .addComponent(jButtonUpdateEmployee))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addContainerGap(470, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonNewEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewEmployeeActionPerformed
-                    newEmployee Info = new newEmployee();
-                    Info.setVisible(true);        
-    }//GEN-LAST:event_jButtonNewEmployeeActionPerformed
+    private void btn_staffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_staffActionPerformed
+        mv_staff.Staff_Total2 Info = new mv_staff.Staff_Total2();
+        Info.setVisible(true);      
+    }//GEN-LAST:event_btn_staffActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-    //no no                lms_students.students tb = new lms_students.students();
-    // no no                tb.setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btn_moviesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_moviesActionPerformed
+        mv_movies.Movie_Total Info = new mv_movies.Movie_Total();
+        Info.setVisible(true);
+    }//GEN-LAST:event_btn_moviesActionPerformed
 
-    private void jButtonViewEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonViewEmployeesActionPerformed
-                    viewEmployee viewInfo = new viewEmployee();
-                    viewInfo.setVisible(true);     
-    }//GEN-LAST:event_jButtonViewEmployeesActionPerformed
+    private void btn_showtimesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_showtimesActionPerformed
+        mv_showtimes.Showtimes_Total Info = new mv_showtimes.Showtimes_Total();
+        Info.setVisible(true);
+    }//GEN-LAST:event_btn_showtimesActionPerformed
 
-    private void jButtonUpdateEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateEmployeeActionPerformed
-                    //updateEmployee updateInfo = new updateEmployee();
-                    //updateInfo.setVisible(true);  
-    }//GEN-LAST:event_jButtonUpdateEmployeeActionPerformed
+    private void btn_locationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_locationsActionPerformed
+        mv_locations.Locations_Total Info = new mv_locations.Locations_Total();
+        Info.setVisible(true);
+    }//GEN-LAST:event_btn_locationsActionPerformed
+
+    private void btn_ticketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ticketsActionPerformed
+        mv_tickets.Tickets_Total Info = new mv_tickets.Tickets_Total();
+        Info.setVisible(true);
+    }//GEN-LAST:event_btn_ticketsActionPerformed
+
+    private void btn_ordersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ordersActionPerformed
+        mv_orders.Orders_Total Info = new mv_orders.Orders_Total();
+        Info.setVisible(true);
+    }//GEN-LAST:event_btn_ordersActionPerformed
+
+    private void btn_roomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_roomActionPerformed
+        mv_rooms.Rooms_Total Info = new mv_rooms.Rooms_Total();
+        Info.setVisible(true);
+    }//GEN-LAST:event_btn_roomActionPerformed
+
+    private void btn_promotionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_promotionsActionPerformed
+        mv_promotions.Promotions_Total Info = new mv_promotions.Promotions_Total();
+        Info.setVisible(true);
+    }//GEN-LAST:event_btn_promotionsActionPerformed
+
+    private void btn_paymentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_paymentsActionPerformed
+        mv_payments.Payments_Total Info = new mv_payments.Payments_Total();
+        Info.setVisible(true);
+    }//GEN-LAST:event_btn_paymentsActionPerformed
+
+    private void btn_transactionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_transactionsActionPerformed
+        mv_transactions.Transactions_Total Info = new mv_transactions.Transactions_Total();
+        Info.setVisible(true);
+    }//GEN-LAST:event_btn_transactionsActionPerformed
+
+    private void btn_backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_backActionPerformed
+        mv_login.welcome_mv Info = new mv_login.welcome_mv();
+        Info.setVisible(true);
+    }//GEN-LAST:event_btn_backActionPerformed
 
     /**
      * @param args the command line arguments
@@ -170,10 +327,18 @@ public class administrators extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButtonNewEmployee;
-    private javax.swing.JButton jButtonUpdateEmployee;
-    private javax.swing.JButton jButtonViewEmployees;
+    private javax.swing.JButton btn_back;
+    private javax.swing.JButton btn_locations;
+    private javax.swing.JButton btn_movies;
+    private javax.swing.JButton btn_orders;
+    private javax.swing.JButton btn_payments;
+    private javax.swing.JButton btn_promotions;
+    private javax.swing.JButton btn_room;
+    private javax.swing.JButton btn_showtimes;
+    private javax.swing.JButton btn_staff;
+    private javax.swing.JButton btn_tickets;
+    private javax.swing.JButton btn_transactions;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
